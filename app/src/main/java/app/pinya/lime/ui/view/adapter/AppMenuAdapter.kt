@@ -17,12 +17,13 @@ import app.pinya.lime.R
 import app.pinya.lime.domain.model.BooleanPref
 import app.pinya.lime.domain.model.menus.*
 import app.pinya.lime.ui.utils.Utils
-import app.pinya.lime.ui.utils.billing.BillingHelper
+//import app.pinya.lime.ui.utils.billing.BillingHelper
 import app.pinya.lime.ui.view.activity.SettingsActivity
 import app.pinya.lime.ui.viewmodel.AppViewModel
 
 class AppMenuAdapter(
-    private val context: Context, private val viewModel: AppViewModel, private val billingHelper: BillingHelper
+    private val context: Context, private val viewModel: AppViewModel,
+//    private val billingHelper: BillingHelper
 ) {
 
     private var contextMenuWindow: PopupWindow? = null
@@ -37,7 +38,8 @@ class AppMenuAdapter(
         if (isMenuOpen) return
         isMenuOpen = true
 
-        val isPro = billingHelper.isPro()
+        val isPro = true
+//            billingHelper.isPro()
 
         val contextMenuView = View.inflate(context, R.layout.view_context_menu, null)
         val icon = contextMenuView.findViewById<ImageView>(R.id.appIcon)
@@ -162,7 +164,7 @@ class AppMenuAdapter(
 
     private fun isHomeFull(): Boolean {
         val homeList = viewModel.homeList.value ?: return false
-        val maxNumberOfHomeApps = viewModel.info.value?.maxNumberOfHomeApps ?: 30
+        val maxNumberOfHomeApps = viewModel.info.value?.maxNumberOfHomeApps ?: 10
         return homeList.size >= maxNumberOfHomeApps
     }
 

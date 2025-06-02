@@ -66,12 +66,12 @@ class MainActivity : AppCompatActivity() {
 
     private var iconPacks: MutableMap<String, IconPackManager.IconPack> = mutableMapOf()
 
-    private val billingHelper by lazy {
-        (this.application as LimeLauncherApp).appContainer.billingHelper
-    }
-
+//    private val billingHelper by lazy {
+//        (this.application as LimeLauncherApp).appContainer.billingHelper
+//    }
+//
     private fun handleBuyProClick() {
-        billingHelper.startBillingFlow(this)
+//        billingHelper.startBillingFlow(this)
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             handleNotificationChange(notifications)
         }
 
-        appMenuAdapter = AppMenuAdapter(this, appViewModel, billingHelper)
+        appMenuAdapter = AppMenuAdapter(this, appViewModel, /*billingHelper*/)
         renameMenuAdapter = RenameMenuAdapter(this, appViewModel)
         reorderMenuAdapter = ReorderMenuAdapter(this, appViewModel)
         buyProMenuAdapter = BuyProMenuAdapter(this, ::handleBuyProClick, null, appViewModel)

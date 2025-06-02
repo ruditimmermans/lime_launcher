@@ -6,6 +6,6 @@ data class InfoModel(
     var renamedApps: MutableMap<String, String> = mutableMapOf(),
     var iconRules: MutableSet<String> = mutableSetOf(),
     var wallpaperLastUpdatedDate: Int = -1,
-    var maxNumberOfHomeApps: Int = 30,
+    var maxNumberOfHomeApps: Int = 10,
     var tutorialDone: Boolean = false,
 )
