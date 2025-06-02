@@ -162,7 +162,7 @@ class AppMenuAdapter(
 
     private fun isHomeFull(): Boolean {
         val homeList = viewModel.homeList.value ?: return false
-        val maxNumberOfHomeApps = viewModel.info.value?.maxNumberOfHomeApps ?: 25
+        val maxNumberOfHomeApps = viewModel.info.value?.maxNumberOfHomeApps ?: 30
         return homeList.size >= maxNumberOfHomeApps
     }
 

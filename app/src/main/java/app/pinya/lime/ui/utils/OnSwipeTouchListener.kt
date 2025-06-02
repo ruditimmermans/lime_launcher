@@ -46,13 +46,12 @@ internal open class OnSwipeTouchListener(c: Context) :
         }
 
         override fun onFling(
-            maine1: MotionEvent?,
+            e1: MotionEvent,
             e2: MotionEvent,
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            val exception = null
-            val value = maine1?.let { e1 ->
+            try {
                 val diffY = e2.y - e1.y
                 val diffX = e2.x - e1.x
                 if (abs(diffX) > abs(diffY)) {
@@ -68,8 +67,9 @@ internal open class OnSwipeTouchListener(c: Context) :
                     }
                 }
             } catch (exception: Exception) {
-                Exception.printStackTrace()
+                exception.printStackTrace()
             }
+
             return false
         }
     }
