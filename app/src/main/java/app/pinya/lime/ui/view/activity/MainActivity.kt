@@ -9,10 +9,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
@@ -34,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import java.util.jar.Manifest
 
 
 @AndroidEntryPoint
@@ -63,6 +66,69 @@ class MainActivity : AppCompatActivity() {
     private val iconPackManager: IconPackManager by lazy {
         IconPackManager(this)
     }
+
+    private val permission RequestId = 1
+    private val permissionName = Manifest.permission.READ_CONTACTS
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+    val singlePermission Btn = findViewById<Button>(R.id.single PermissionBtn
+    singlePermission Btn.setOnClickListener {it: View!
+        if (checkSingle PermissionAny(
+                    activity: this,
+        permissionName,
+        permissionRequestId
+        )) {
+            doOperation()
+        }
+    }
+    }
+    override fun onRequest Permissions Result(
+    requestCode: Int,
+    permissions: Array<out String>,
+    grantResults: IntArray
+    ) {
+        super.onRequestPermissions Result(requestCode, permissions, grantResults)
+        if (requestCode)
+    }
+    private fun dooperation () {
+    }else{
+        if (!ActivityCompat. should ShowRequest Permission Rationale(
+                    activity: this,
+        permissionName
+        )) {
+            appSettingOpen( context: this)
+        }else{
+            warningPermissionDialog( context: this) { _: DialogInterface?, which: Int ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    if(checkSinglePermissionAny(
+                            activity: this,
+                    permissionName,
+                    permissionRequestId
+                    )) {
+                        doOperation()
+                    }
+                }
+            }
+        }
+        }
+    }
+  }
+}
+
+        private fun doOperation() {
+            Toast.makeText(
+                context: this,
+            text: "Permission Grant Successfully!",
+            Toast.LENGTH_LONG
+            ).show()
+           }
+        }
+
+
+
 
     private var iconPacks: MutableMap<String, IconPackManager.IconPack> = mutableMapOf()
 
