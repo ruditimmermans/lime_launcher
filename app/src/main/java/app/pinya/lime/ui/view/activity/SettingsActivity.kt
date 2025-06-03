@@ -171,7 +171,7 @@ class SettingsActivity : AppCompatActivity() {
                 rateAppButton?.isVisible = !isChecked
                 rateAppButton?.isEnabled = !isChecked
             }
-            setVisibility(rateAppButton?.isChecked == true)
+            setVisibility(rateAppButton?.isChecked ?: false)
 
             rateAppButton?.setOnPreferenceChangeListener { _, newValue ->
                 if (newValue as Boolean) {
