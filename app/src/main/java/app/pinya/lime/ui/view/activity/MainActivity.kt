@@ -3,16 +3,20 @@ package app.pinya.lime.ui.view.activity
 import android.annotation.SuppressLint
 import android.app.role.RoleManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
@@ -34,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import java.util.jar.Manifest
 
 
 @AndroidEntryPoint
@@ -64,6 +69,8 @@ class MainActivity : AppCompatActivity() {
         IconPackManager(this)
     }
 
+
+
     private var iconPacks: MutableMap<String, IconPackManager.IconPack> = mutableMapOf()
 
 //    private val billingHelper by lazy {
@@ -74,6 +81,51 @@ class MainActivity : AppCompatActivity() {
 //        billingHelper.startBillingFlow(this)
     }
 
+    private val permissionRequestId = 1
+    private val permissionName = android.Manifest.permission.POST_NOTIFICATIONS
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == permissionRequestId){
+            if (grantResults.isNotEmpty() && grantResults[0]  == PackageManager.PERMISSION_GRANTED){
+                doOperation()
+            }else{
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        permissionName
+                    )){
+                    // here app setting open because permission permanent denied
+                    appSettingOpen(this)
+                }else{
+                    // permission Denied
+                    // show warning permission dialog
+                    warningPermissionDialog(this) { _: DialogInterface?, which:Int ->
+                        when(which){
+                            DialogInterface.BUTTON_POSITIVE -> {
+                                if(checkSinglePermissionAny(
+                                        this,
+                                        permissionName,
+                                        permissionRequestId
+                                    )){
+                                    doOperation()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fun doOperation(){
+        notificationsHandler = NotificationsHandler(this)
+        notificationsHandler?.notifications?.observe(this) { notifications ->
+            handleNotificationChange(notifications)
+        }
+    }
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,13 +144,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         appViewModel.getInfo()
-
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (checkSinglePermissionAny(
+                    this,
+                    permissionName,
+                    permissionRequestId
+                )
+            ){
+                doOperation()
+            }
+        }else{
+            doOperation()
+        }
         makeNavbarTransparent()
 
-        notificationsHandler = NotificationsHandler(this)
-        notificationsHandler?.notifications?.observe(this) { notifications ->
-            handleNotificationChange(notifications)
-        }
 
         appMenuAdapter = AppMenuAdapter(this, appViewModel, /*billingHelper*/)
         renameMenuAdapter = RenameMenuAdapter(this, appViewModel)
