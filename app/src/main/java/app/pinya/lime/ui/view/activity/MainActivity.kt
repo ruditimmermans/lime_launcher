@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -21,7 +20,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import app.pinya.lime.LimeLauncherApp
 import app.pinya.lime.R
 import app.pinya.lime.data.memory.AppProvider
 import app.pinya.lime.databinding.ActivityMainBinding
@@ -38,7 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import java.util.jar.Manifest
 
 
 @AndroidEntryPoint
@@ -159,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         makeNavbarTransparent()
 
 
-        appMenuAdapter = AppMenuAdapter(this, appViewModel, /*billingHelper*/)
+        appMenuAdapter = AppMenuAdapter(this, appViewModel /*billingHelper*/)
         renameMenuAdapter = RenameMenuAdapter(this, appViewModel)
         reorderMenuAdapter = ReorderMenuAdapter(this, appViewModel)
         buyProMenuAdapter = BuyProMenuAdapter(this, ::handleBuyProClick, null, appViewModel)

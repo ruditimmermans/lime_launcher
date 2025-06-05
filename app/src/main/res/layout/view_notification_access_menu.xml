@@ -118,7 +118,7 @@
                     android:id="@+id/notificationAccessMenu_enable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_rounded_green"
+                    android:background="@drawable/button_rounded_grey"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="24dp"
